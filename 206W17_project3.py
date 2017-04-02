@@ -14,7 +14,8 @@ import twitter_info # same deal as always...
 import json
 import sqlite3
 
-## Your name:
+## Your name: Benjamin Zeffer
+## Section: Thursday 7-8pm
 ## The names of anyone you worked with on this project:
 
 #####
