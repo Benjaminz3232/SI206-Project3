@@ -78,7 +78,6 @@ def get_user_tweets(username):
 umich_tweets = get_user_tweets("umich")
 
 
-
 ## Task 2 - Creating database and loading data into database
 
 # You will be creating a database file: project3_tweets.db
@@ -190,13 +189,13 @@ def add_tweet(conn, cur, tweet):
     for mention in mentions:
         add_user(conn, cur, mention["id_str"], False)
 
-
 add_user(conn, cur, "umich", True)
 
 for tweet in umich_tweets:
     add_tweet(conn, cur, tweet)
 
 conn.commit()
+
 
 ## Task 3 - Making queries, saving data, fetching data
 
@@ -231,25 +230,21 @@ cur.execute(selectJoinStatement)
 joined_result = cur.fetchall()
 
 
-
 ## Task 4 - Manipulating data with comprehensions & libraries
 
 ## Use a set comprehension to get a set of all words (combinations of characters separated by whitespace) among the descriptions in the descriptions_fav_users list. Save the resulting set in a variable called description_words.
 description_words = {word for description in descriptions_fav_users for word in description.split()}
 
-
-
 ## Use a Counter in the collections library to find the most common character among all of the descriptions in the descriptions_fav_users list. Save that most common character in a variable called most_common_char. Break any tie alphabetically (but using a Counter will do a lot of work for you...).
 most_common_char = collections.Counter([char for description in descriptions_fav_users for word in description.split() for char in word]).most_common(1)[0][0]
-
 
 ## Putting it all together...
 # Write code to create a dictionary whose keys are Twitter screen names and whose associated values are lists of tweet texts that that user posted. You may need to make additional queries to your database! To do this, you can use, and must use at least one of: the DefaultDict container in the collections library, a dictionary comprehension, list comprehension(s). Y
 # You should save the final dictionary in a variable called twitter_info_diction.
 twitter_info_diction = {}
 for user in users_info:
-    selectTweetsStatement = 'SELECT text FROM Tweets WHERE user_id = ?'
-    cur.execute(selectTweetsStatement, (user[0],))
+    selectingtweets = 'SELECT text FROM Tweets WHERE user_id = ?'
+    cur.execute(selectingtweets, (user[0],))
     tweet_list = []
     if not cur.fetchone():
         tweet_list = [tweet["text"] for tweet in get_user_tweets(user[0])]
