@@ -48,21 +48,19 @@ try:
 except:
 	CACHE_DICTION = {}
 
-
-
 # Define your function get_user_tweets here:
-def get_user_tweets(user_handle):
+def get_user_tweets(username):
     twenty_tweets = []
 
-    if "tweets" in CACHE_DICTION and user_handle in CACHE_DICTION["tweets"]:
-        response = CACHE_DICTION["tweets"][user_handle]
+    if "tweets" in CACHE_DICTION and username in CACHE_DICTION["tweets"]:
+        response = CACHE_DICTION["tweets"][username]
     else:
-        response = api.user_timeline(user_handle)
+        response = api.user_timeline(username)
         if "tweets" in CACHE_DICTION:
-            CACHE_DICTION["tweets"][user_handle] = response
+            CACHE_DICTION["tweets"][username] = response
         else:
             CACHE_DICTION["tweets"] = {}
-            CACHE_DICTION["tweets"][user_handle] = response
+            CACHE_DICTION["tweets"][username] = response
 
         cache_file = open(CACHE_FNAME, 'w')
         cache_file.write(json.dumps(CACHE_DICTION))
@@ -70,7 +68,6 @@ def get_user_tweets(user_handle):
 
     for item in response:
         twenty_tweets.append(item)
-    #print(twenty_tweets[1])
 
     return twenty_tweets
 
